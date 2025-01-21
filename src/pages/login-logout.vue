@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { supabase, user } from '../supabase';
-import  IconGithub  from '../components/icon/IconGithub.vue';
 </script>
 
 <template>
