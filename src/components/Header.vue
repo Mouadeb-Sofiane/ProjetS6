@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import LogoSpider from "@/assets/img/Logo-Spider.vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { RouterLink } from "vue-router";
 
+// Simule l'authentification (à remplacer par une vraie vérification)
+const isAuthenticated = ref(false);
 const isOpen = ref(false);
+const isScrolled = ref(false);
+const isMobile = ref(false);
 
 const toggleMobileMenu = () => {
   isOpen.value = !isOpen.value;
@@ -11,132 +16,132 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isOpen.value = false;
 };
+
+const checkScroll = () => {
+  isScrolled.value = window.scrollY > 0;
+};
+
+const checkWidth = () => {
+  isMobile.value = window.innerWidth < 768;
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", checkScroll);
+  window.addEventListener("resize", checkWidth);
+  checkScroll();
+  checkWidth();
+
+  // Simuler une connexion utilisateur après 10s (à remplacer par un vrai système d'authentification)
+  setTimeout(() => {
+    isAuthenticated.value = true;
+  }, 10000);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", checkScroll);
+  window.removeEventListener("resize", checkWidth);
+});
 </script>
 
 <template>
-  <header class="absolute inset-x-0 top-2 flex justify-center items-center">
-    <nav class="bg-black bg-opacity-80 rounded-lg shadow-lg p-4 w-[90%] max-w-4xl">
+  <header
+    class="fixed w-full z-50 transition-all duration-300 flex justify-center"
+    :class="{ 'top-0 h-14': isMobile, 'top-4': !isMobile }"
+  >
+    <nav
+      class="w-[90%] max-w-4xl transition-all duration-300 bg-deepBlue md:p-4 p-4"
+      :class="{ 'rounded-none w-full h-20': isMobile, 'rounded-full': !isMobile }"
+    >
       <div class="flex justify-between items-center">
-        <!-- Logo ou nom du site -->
         <RouterLink to="/">
-          <div class="flex-shrink-0 text-white text-lg font-bold uppercase tracking-widest">
-            MyWebsite
+          <div
+            class="flex-shrink-0 text-white font-bold uppercase tracking-widest"
+            :class="{ 'text-sm': isMobile, 'text-lg': !isMobile }"
+          >
+            <LogoSpider class= "w-12 h-12"/>          
           </div>
         </RouterLink>
 
-        <!-- Bouton pour menu mobile -->
+        <!-- Bouton mobile -->
         <button
           @click="toggleMobileMenu"
-          class="md:hidden text-white hover:text-gray-300 focus:outline-none"
+          class="md:hidden text-white hover:text-gray-300 bg-deepBlue focus:outline-none transform transition-transform duration-300"
+          :class="{ 'rotate-180': isOpen }"
+          aria-label="Toggle navigation menu"
         >
-          <!-- Icônes (hamburger ou croix) -->
-          <svg v-if="!isOpen" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
-            <path
-              fill-rule="evenodd"
-              d="M3 9h14a1 1 0 110 2H3a1 1 0 110-2zm0-4h14a1 1 0 110 2H3a1 1 0 110-2zm0 8h14a1 1 0 110 2H3a1 1 0 110-2z"
-              clip-rule="evenodd"
-            />
+          <svg v-if="!isOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:bg-deepBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
           </svg>
-          <svg v-else viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
-            <path
-              fill-rule="evenodd"
-              d="M6 6a.75.75 0 011.06 0L10 8.94l2.47-2.47a.75.75 0 111.06 1.06L11.06 10l2.47 2.47a.75.75 0 11-1.06 1.06L10 11.06l-2.47 2.47a.75.75 0 01-1.06-1.06L8.94 10 6.47 7.53A.75.75 0 016 6z"
-              clip-rule="evenodd"
-            />
+          <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:bg-deepBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <!-- Menu pour grands écrans -->
+        <!-- Menu Desktop -->
         <ul class="hidden md:flex space-x-8">
+          <li><RouterLink to="/" class="text-white uppercase hover:text-gray-300">Home</RouterLink></li>
+          <li><RouterLink to="/quizz" class="text-white uppercase hover:text-gray-300">Quizz</RouterLink></li>
+          <li><RouterLink to="/cats" class="text-white uppercase hover:text-gray-300">Cats</RouterLink></li>
+          <li><RouterLink to="/donate" class="text-white uppercase hover:text-gray-300">Donate</RouterLink></li>
           <li>
-            <RouterLink to="/" class="text-white uppercase hover:text-gray-300">Home</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/dogs" class="text-white uppercase hover:text-gray-300">Dogs</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/cats" class="text-white uppercase hover:text-gray-300">Cats</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/donate" class="text-white uppercase hover:text-gray-300">Donate</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/contact" class="text-white uppercase hover:text-gray-300">Contact</RouterLink>
+            <RouterLink :to="isAuthenticated ? '/profile' : '/Login'" class="text-white uppercase hover:text-gray-300">
+              {{ isAuthenticated ? "Profil" : "Connexion" }}
+            </RouterLink>
           </li>
         </ul>
       </div>
 
-      <!-- Menu mobile -->
-      <div
-        v-if="isOpen"
-        class="md:hidden mt-4 bg-black bg-opacity-90 rounded-lg p-4"
-      >
-        <ul class="flex flex-col space-y-4">
-          <li>
-            <RouterLink
-              @click="closeMobileMenu"
-              to="/"
-              class="text-white uppercase hover:text-gray-300"
-            >
-              Home
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink
-              @click="closeMobileMenu"
-              to="/dogs"
-              class="text-white uppercase hover:text-gray-300"
-            >
-              Dogs
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink
-              @click="closeMobileMenu"
-              to="/cats"
-              class="text-white uppercase hover:text-gray-300"
-            >
-              Cats
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink
-              @click="closeMobileMenu"
-              to="/donate"
-              class="text-white uppercase hover:text-gray-300"
-            >
-              Donate
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink
-              @click="closeMobileMenu"
-              to="/contact"
-              class="text-white uppercase hover:text-gray-300"
-            >
-              Contact
-            </RouterLink>
-          </li>
-        </ul>
-      </div>
+      <!-- Menu Mobile -->
+      <transition name="fade-slide">
+        <div v-if="isOpen" class="md:hidden bg-deepBlue shadow-lg p-4 absolute w-full left-0">
+          <ul class="flex flex-col space-y-4">
+            <li><RouterLink @click="closeMobileMenu" to="/" class="text-white uppercase hover:text-gray-300">Home</RouterLink></li>
+            <li><RouterLink @click="closeMobileMenu" to="/quizz" class="text-white uppercase hover:text-gray-300">Quizz</RouterLink></li>
+            <li><RouterLink @click="closeMobileMenu" to="/cats" class="text-white uppercase hover:text-gray-300">Cats</RouterLink></li>
+            <li><RouterLink @click="closeMobileMenu" to="/donate" class="text-white uppercase hover:text-gray-300">Donate</RouterLink></li>
+            <li>
+              <RouterLink
+                @click="closeMobileMenu"
+                :to="isAuthenticated ? '/profile' : '/Login'"
+                class="text-white uppercase hover:text-gray-300"
+              >
+                {{ isAuthenticated ? "Profil" : "Connexion" }}
+              </RouterLink>
+            </li>
+          </ul>
+        </div>
+      </transition>
     </nav>
   </header>
 </template>
 
 <style scoped>
 header {
-  position: fixed;
-  width: 100%;
-  height: auto; /* Ajustement pour éviter un overflow sur la hauteur */
-  pointer-events: none; /* Le menu ne bloque pas la page derrière */
+  pointer-events: none;
 }
 
 nav {
-  pointer-events: auto; /* Seul le menu reste interactif */
-  transition: background-color 0.3s ease;
+  pointer-events: auto;
 }
 
 a {
   transition: color 0.3s ease;
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.fade-slide-leave-from,
+.fade-slide-enter-to {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

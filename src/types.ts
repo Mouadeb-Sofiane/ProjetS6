@@ -6,4 +6,11 @@ image_film: string;
 description_film: string;
 note_film: number;
 };
+export type User = {
+    id: string
+    email: string
+    first_name: string
+    last_name: string
+    avatar_url: string
+  };
 

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-
+import { RouterLink } from 'vue-router'
+import Quizz from '@/pages/Quizz.vue'
+import Dash from '@/pages/Dashboard.vue'
 </script>
 
 <template>
@@ -41,9 +43,7 @@
               d="M12 11c1.133 0 2.172.432 2.93 1.14m1.33-6.39l.28-.28a8 8 0 10-11.31 0l.28.28m3.93 2.26a4 4 0 015.62 0m-3.19 7.93a4 4 0 01-5.62 0m7.89 3.18a8.963 8.963 0 01-9.56 0"
             />
           </svg>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">
-            Sécurité avancée
-          </h3>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Sécurité avancée</h3>
           <p class="text-gray-600">
             Des solutions de pointe pour prévenir les cyberattaques et protéger vos systèmes.
           </p>
@@ -63,9 +63,7 @@
               d="M12 11c1.133 0 2.172.432 2.93 1.14m1.33-6.39l.28-.28a8 8 0 10-11.31 0l.28.28m3.93 2.26a4 4 0 015.62 0m-3.19 7.93a4 4 0 01-5.62 0m7.89 3.18a8.963 8.963 0 01-9.56 0"
             />
           </svg>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">
-            Expertise technique
-          </h3>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Expertise technique</h3>
           <p class="text-gray-600">
             Une équipe d’experts dédiée à vous offrir les meilleures solutions personnalisées.
           </p>
@@ -85,9 +83,7 @@
               d="M12 11c1.133 0 2.172.432 2.93 1.14m1.33-6.39l.28-.28a8 8 0 10-11.31 0l.28.28m3.93 2.26a4 4 0 015.62 0m-3.19 7.93a4 4 0 01-5.62 0m7.89 3.18a8.963 8.963 0 01-9.56 0"
             />
           </svg>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">
-            Support 24/7
-          </h3>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Support 24/7</h3>
           <p class="text-gray-600">
             Une assistance disponible à tout moment pour garantir votre tranquillité d’esprit.
           </p>
@@ -111,4 +107,6 @@
       </RouterLink>
     </div>
   </section>
+  <Quizz />
+  <Dash />
 </template>
