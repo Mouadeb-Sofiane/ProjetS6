@@ -15,7 +15,7 @@
         <div 
           v-for="service in services" 
           :key="service.title" 
-          class="p-6 bg-white shadow-lg rounded-lg text-center transition duration-300 transform hover:-translate-y-2 hover:bg-gradient-to-r from-cyan-400 to-pink-500 hover:text-white group"
+          class="p-6 bg-white shadow-lg rounded-lg text-center transition duration-300 transform hover:-translate-y-2 hover:bg-gradient-to-r from-textlogo1 via-textlogo2 to-blue-800 hover:text-white group"
         >
           <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4">
             <component :is="service.icon" class="w-12 h-12 fill-current text-pink-500 group-hover:text-white transition-colors duration-300" />
