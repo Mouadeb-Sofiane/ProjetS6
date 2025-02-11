@@ -19,6 +19,7 @@ async function checkUser() {
   user.value = data?.user ?? null;
 }
 
+
 checkUser();
 
 // Fonction de connexion de l'utilisateur
@@ -47,25 +48,24 @@ async function handleSignUp() {
   if (signUpError) {
     error.value = signUpError.message;
   } else {
-    // Ajouter les informations supplémentaires après l'inscription dans la table `users`
-    const { error: userError } = await supabase
-      .from('users') // Utiliser la table `users`
-      .upsert([
-        {
-          id: data.user.id, // Utilisez l'ID de l'utilisateur pour la mise à jour
-          email: data.user.email,
-          first_name: firstName.value,
-          last_name: lastName.value,
-        },
-      ]);
+    if (data.user) {
+      const { error: userError } = await supabase
+        .from('users')
+        .insert([
+          {
+            id: data.user.id,
+            email: data.user.email,
+            first_name: firstName.value,
+            last_name: lastName.value,
+          },
+        ]);
 
-    if (userError) {
-      console.error('Erreur lors de l\'ajout des informations dans la table users:', userError); // Log de l'erreur
-      error.value = userError.message;
-    } else {
-      user.value = data.user;
-      error.value = 'Vérifiez votre email pour confirmer votre inscription.';
-      router.push('/profile');
+      if (userError) {
+        console.error('Erreur lors de l\'ajout des infos users:', userError);
+        error.value = userError.message;
+      } else {
+        error.value = 'Vérifiez votre email pour confirmer votre inscription.';
+      }
     }
   }
 }

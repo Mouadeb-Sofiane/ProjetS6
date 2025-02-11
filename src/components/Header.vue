@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LogoSpider from "@/assets/img/Logo-Spider.vue";
+import LogoSpider from "@/components/icon/Logo-Spider.vue";
 import { ref, onMounted, onUnmounted } from "vue";
 import { RouterLink } from "vue-router";
 
@@ -49,7 +49,7 @@ onUnmounted(() => {
     :class="{ 'top-0 h-14': isMobile, 'top-4': !isMobile }"
   >
     <nav
-      class="w-[90%] max-w-4xl transition-all duration-300 bg-deepBlue md:p-4 p-4"
+      class="w-[90%] max-w-4xl transition-all duration-300 bg-gris md:p-4 p-4"
       :class="{ 'rounded-none w-full h-20': isMobile, 'rounded-full': !isMobile }"
     >
       <div class="flex justify-between items-center">
@@ -65,26 +65,25 @@ onUnmounted(() => {
         <!-- Bouton mobile -->
         <button
           @click="toggleMobileMenu"
-          class="md:hidden text-white hover:text-gray-300 bg-deepBlue focus:outline-none transform transition-transform duration-300"
+          class="md:hidden text-white hover:text-gray-300 bg-gris focus:outline-none transform transition-transform duration-300"
           :class="{ 'rotate-180': isOpen }"
           aria-label="Toggle navigation menu"
         >
-          <svg v-if="!isOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:bg-deepBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg v-if="!isOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:bg-gris" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
           </svg>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:bg-deepBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hover:bg-gris" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         <!-- Menu Desktop -->
         <ul class="hidden md:flex space-x-8">
-          <li><RouterLink to="/" class="text-white uppercase hover:text-gray-300">Home</RouterLink></li>
-          <li><RouterLink to="/quizz" class="text-white uppercase hover:text-gray-300">Quizz</RouterLink></li>
-          <li><RouterLink to="/cats" class="text-white uppercase hover:text-gray-300">Cats</RouterLink></li>
-          <li><RouterLink to="/donate" class="text-white uppercase hover:text-gray-300">Donate</RouterLink></li>
+          <li><RouterLink to="/quizz" class="text-white uppercase hover:text-gray-300 font-maPolice">Quiz</RouterLink></li>
+          <li><RouterLink to="/jeux" class="text-white uppercase hover:text-gray-300 font-maPolice">Jeux</RouterLink></li>
+          <li><RouterLink to="/articles" class="text-white uppercase hover:text-gray-300 font-maPolice">Articles</RouterLink></li>
           <li>
-            <RouterLink :to="isAuthenticated ? '/profile' : '/Login'" class="text-white uppercase hover:text-gray-300">
+            <RouterLink :to="isAuthenticated ? '/profile' : '/Login'" class="text-white uppercase hover:text-gray-300 font-maPolice">
               {{ isAuthenticated ? "Profil" : "Connexion" }}
             </RouterLink>
           </li>
@@ -93,17 +92,16 @@ onUnmounted(() => {
 
       <!-- Menu Mobile -->
       <transition name="fade-slide">
-        <div v-if="isOpen" class="md:hidden bg-deepBlue shadow-lg p-4 absolute w-full left-0">
+        <div v-if="isOpen" class="md:hidden bg-gris shadow-lg p-4 absolute w-full left-0">
           <ul class="flex flex-col space-y-4">
-            <li><RouterLink @click="closeMobileMenu" to="/" class="text-white uppercase hover:text-gray-300">Home</RouterLink></li>
-            <li><RouterLink @click="closeMobileMenu" to="/quizz" class="text-white uppercase hover:text-gray-300">Quizz</RouterLink></li>
-            <li><RouterLink @click="closeMobileMenu" to="/cats" class="text-white uppercase hover:text-gray-300">Cats</RouterLink></li>
-            <li><RouterLink @click="closeMobileMenu" to="/donate" class="text-white uppercase hover:text-gray-300">Donate</RouterLink></li>
+            <li><RouterLink @click="closeMobileMenu" to="/quizz" class="text-white uppercase hover:text-gray-300 font-maPolice">Quiz</RouterLink></li>
+            <li><RouterLink @click="closeMobileMenu" to="/jeux" class="text-white uppercase hover:text-gray-300 font-maPolice">Jeux</RouterLink></li>
+            <li><RouterLink @click="closeMobileMenu" to="/articles" class="text-white uppercase hover:text-gray-300 font-maPolice">Articles</RouterLink></li>
             <li>
               <RouterLink
                 @click="closeMobileMenu"
                 :to="isAuthenticated ? '/profile' : '/Login'"
-                class="text-white uppercase hover:text-gray-300"
+                class="text-white uppercase hover:text-gray-300 font-maPolice"
               >
                 {{ isAuthenticated ? "Profil" : "Connexion" }}
               </RouterLink>

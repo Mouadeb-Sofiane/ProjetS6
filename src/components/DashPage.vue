@@ -1,180 +1,128 @@
-<template>
-  <div class="password-game">
-    <h1>Créez un mot de passe robuste</h1>
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import MDP from "./MDP.vue";
 
-    <!-- Niveau Normal -->
-    <div class="level">
-      <h2>Niveau Normal</h2>
-      <p>Le mot de passe est trouvé en 30secondes</p>
-      <p>Votre mot de passe doit contenir au moins 8 caractères.</p>
-      <input type="text" v-model="normalPassword" placeholder="Entrez un mot de passe" />
-      <button @click="validateNormal">Vérifier</button>
-      <p v-if="normalMessage" :class="{ success: normalSuccess, error: !normalSuccess }">
-        {{ normalMessage }}
-      </p>
-    </div>
+const password = ref("");
+const passwordStrength = ref(0);
+const strengthMessage = ref("");
+const crackTime = ref("Instantané");
 
-    <!-- Niveau Intermédiaire -->
-    <div class="level">
-      <h2>Niveau Intermédiaire</h2>
-      <p>Votre mot de passe doit contenir au moins 12 caractères, un chiffre, une lettre majuscule, et un caractère spécial.</p>
-      <input type="text" v-model="intermediatePassword" placeholder="Entrez un mot de passe" />
-      <button @click="validateIntermediate">Vérifier</button>
-      <p v-if="intermediateMessage" :class="{ success: intermediateSuccess, error: !intermediateSuccess }">
-        {{ intermediateMessage }}
-      </p>
-    </div>
+const securityClass = computed(() => {
+  if (passwordStrength.value < 30) return "weak";
+  if (passwordStrength.value < 50) return "medium";
+  if (passwordStrength.value < 70) return "strong";
+  return "extremely-strong";
+});
 
-    <!-- Niveau Avancé -->
-    <div class="level">
-      <h2>Niveau Avancé</h2>
-      <p>Votre mot de passe doit contenir au moins 16 caractères, un chiffre, une lettre majuscule, une lettre minuscule, et une séquence aléatoire sans répétition immédiate de caractères.</p>
-      <input type="text" v-model="advancedPassword" placeholder="Entrez un mot de passe" />
-      <button @click="validateAdvanced">Vérifier</button>
-      <p v-if="advancedMessage" :class="{ success: advancedSuccess, error: !advancedSuccess }">
-        {{ advancedMessage }}
-      </p>
-    </div>
+const progressBarColor = computed(() => {
+  if (passwordStrength.value < 30) return "red";
+  if (passwordStrength.value < 50) return "orange";
+  if (passwordStrength.value < 70) return "yellow";
+  return "green";
+});
 
-    <!-- Niveau Extrême -->
-    <div class="level">
-      <h2>Niveau Extrême</h2>
-      <p>
-        Votre mot de passe doit contenir au moins 20 caractères, incluant :
-        <ul>
-          <li>Au moins 2 lettres majuscules</li>
-          <li>Au moins 2 chiffres</li>
-          <li>Au moins 2 caractères spéciaux</li>
-          <li>Une séquence aléatoire sans répétition immédiate de caractères</li>
-        </ul>
-      </p>
-      <input type="text" v-model="extremePassword" placeholder="Entrez un mot de passe" />
-      <button @click="validateExtreme">Vérifier</button>
-      <p v-if="extremeMessage" :class="{ success: extremeSuccess, error: !extremeSuccess }">
-        {{ extremeMessage }}
-      </p>
-    </div>
-  </div>
-</template>
+const evaluatePassword = () => {
+  let pass = password.value;
+  let score = 0;
 
-<script>
-export default {
-  data() {
-    return {
-      normalPassword: "",
-      intermediatePassword: "",
-      advancedPassword: "",
-      extremePassword: "",
-      normalMessage: "",
-      intermediateMessage: "",
-      advancedMessage: "",
-      extremeMessage: "",
-      normalSuccess: false,
-      intermediateSuccess: false,
-      advancedSuccess: false,
-      extremeSuccess: false,
-    };
-  },
-  methods: {
-    validateNormal() {
-      if (this.normalPassword.length >= 8) {
-        this.normalSuccess = true;
-        this.normalMessage = "Mot de passe valide !";
-      } else {
-        this.normalSuccess = false;
-        this.normalMessage = "Mot de passe trop court.";
-      }
-    },
-    validateIntermediate() {
-      const hasUpperCase = /[A-Z]/.test(this.intermediatePassword);
-      const hasDigit = /\d/.test(this.intermediatePassword);
-      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(this.intermediatePassword);
-      if (this.intermediatePassword.length >= 12 && hasUpperCase && hasDigit && hasSpecialChar) {
-        this.intermediateSuccess = true;
-        this.intermediateMessage = "Mot de passe valide !";
-      } else {
-        this.intermediateSuccess = false;
-        this.intermediateMessage = "Mot de passe non conforme.";
-      }
-    },
-    validateAdvanced() {
-      const hasUpperCase = /[A-Z]/.test(this.advancedPassword);
-      const hasLowerCase = /[a-z]/.test(this.advancedPassword);
-      const hasDigit = /\d/.test(this.advancedPassword);
-      const isUniqueSequence = !/(.)\1{1}/.test(this.advancedPassword); // No immediate repetition
-      if (
-        this.advancedPassword.length >= 16 &&
-        hasUpperCase &&
-        hasLowerCase &&
-        hasDigit &&
-        isUniqueSequence
-      ) {
-        this.advancedSuccess = true;
-        this.advancedMessage = "Mot de passe valide !";
-      } else {
-        this.advancedSuccess = false;
-        this.advancedMessage = "Mot de passe non conforme.";
-      }
-    },
-    validateExtreme() {
-      const hasTwoUpperCase = (this.extremePassword.match(/[A-Z]/g) || []).length >= 2;
-      const hasTwoDigits = (this.extremePassword.match(/\d/g) || []).length >= 2;
-      const hasTwoSpecialChars = (this.extremePassword.match(/[!@#$%^&*(),.?":{}|<>]/g) || []).length >= 2;
-      const isUniqueSequence = !/(.)\1{1}/.test(this.extremePassword); // No immediate repetition
+  if (pass.length >= 12) score += 20;
+  if (pass.length >= 14) score += 20;
+  if (pass.length >= 16) score += 10;
+  if (/[A-Z].*[A-Z]/.test(pass)) score += 15;
+  if (/[a-z].*[a-z]/.test(pass)) score += 10;
+  if (/\d.*\d/.test(pass)) score += 15;
+  if (/[!@#$%^&*(),.?":{}|<>].*[!@#$%^&*(),.?":{}|<>]/.test(pass)) score += 25;
+  if (!/(.)\1{2}/.test(pass)) score += 10;
+  if (/(123|abc|password|qwerty|salut|hello)/i.test(pass)) score -= 30;
 
-      if (
-        this.extremePassword.length >= 20 &&
-        hasTwoUpperCase &&
-        hasTwoDigits &&
-        hasTwoSpecialChars &&
-        isUniqueSequence
-      ) {
-        this.extremeSuccess = true;
-        this.extremeMessage = "Mot de passe valide et ultra sécurisé !";
-      } else {
-        this.extremeSuccess = false;
-        this.extremeMessage = "Mot de passe non conforme aux critères extrêmes.";
-      }
-    },
-  },
+  const commonWords = ["salut", "password", "1234", "qwerty", "admin", "welcome"];
+  for (let word of commonWords) {
+    if (new RegExp(word, "i").test(pass)) {
+      score -= 30;
+    }
+  }
+
+  passwordStrength.value = Math.max(0, Math.min(score, 100));
+  updateMessageAndTime();
+};
+
+const updateMessageAndTime = () => {
+  let score = passwordStrength.value;
+  if (score < 30) {
+    strengthMessage.value = "Très faible";
+    crackTime.value = "Instantané";
+  } else if (score < 50) {
+    strengthMessage.value = "Faible";
+    crackTime.value = "Quelques secondes";
+  } else if (score < 70) {
+    strengthMessage.value = "Moyen";
+    crackTime.value = "Quelques minutes";
+  } else if (score < 90) {
+    strengthMessage.value = "Fort";
+    crackTime.value = "Plusieurs heures à jours";
+  } else {
+    strengthMessage.value = "Extrêmement sécurisé";
+    crackTime.value = "Plusieurs siècles";
+  }
 };
 </script>
 
+<template>
+  <div class="password-security">
+      <h1 class="text-white font-maPolice">Testez la Sécurité de votre Mot de Passe</h1>
+
+    <input type="text" v-model="password" placeholder="Entrez un mot de passe" @input="evaluatePassword" />
+
+    <div class="progress-bar" :style="{ width: passwordStrength + '%', backgroundColor: progressBarColor }"></div>
+
+    <div :class="securityClass">
+      <p>{{ strengthMessage }}</p>
+      <p class="font-maPolice">Estimation du temps de piratage : {{ crackTime }}</p>
+    </div>
+  </div>
+  <div class="flex">
+    <MDP />
+  </div>
+</template>
+
 <style>
-.password-game {
-  max-width: 600px;
+.password-security {
+  max-width: 500px;
   margin: auto;
   font-family: Arial, sans-serif;
 }
-.level {
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
+
 input {
-  display: block;
   width: 100%;
-  margin-bottom: 10px;
   padding: 8px;
+  margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-button {
-  padding: 8px 12px;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+
+.progress-bar {
+  height: 10px;
+  transition: width 0.3s, background-color 0.3s;
 }
-button:hover {
-  background-color: #0056b3;
+
+p {
+  font-weight: bold;
 }
-.success {
-  color: green;
-}
-.error {
+
+.weak {
   color: red;
 }
+
+.medium {
+  color: orange;
+}
+
+.strong {
+  color: green;
+}
+
+.extremely-strong {
+  color: darkgreen;
+}
+
 </style>

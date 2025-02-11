@@ -11,6 +11,7 @@ const lastName = ref("");
 const email = ref("");
 const avatarUrl = ref("");
 const bio_users = ref("");
+const score = ref(0); // Déclarer score comme une variable réactive
 const router = useRouter();
 
 async function fetchUserInfo() {
@@ -37,6 +38,7 @@ async function fetchUserInfo() {
     bio_users.value = userData.bio_users;
     email.value = userData.email;
     avatarUrl.value = userData.avatar_url || "";
+    score.value = userData.score || 0; // Assigner le score ici
   }
 }
 
@@ -80,6 +82,7 @@ function cancelUpdate() {
 onMounted(fetchUserInfo);
 </script>
 
+
 <template>
   <BackGround class="absolute inset-0 z-[-1]" />
   <div class="min-h-screen flex items-center justify-center p-6">
@@ -103,6 +106,7 @@ onMounted(fetchUserInfo);
             <div>
               <h2 class="text-lg font-semibold text-gray-200">{{ firstName }} {{ lastName }}</h2>
               <p class="text-sm text-gray-500">{{ email }}</p>
+              <p class="text-sm text-gray-200">Score du dernier quiz : <span class="text-green-400 font-bold">{{ score }}</span></p>
             </div>
           </div>
 
@@ -156,8 +160,8 @@ onMounted(fetchUserInfo);
         <div class="flex flex-col justify-between">
           <!-- Bio -->
            <div>
-            <h2 class="text-xl font-semibold text-gray-300 underline">Biographie</h2>
-            <p class="text-white">{{ bio_users }}</p>
+            <h2 class="text-2xl font-semibold text-gray-300 mb-4">Biographie</h2>
+            <p class="text-white mb-4">{{ bio_users }}</p>
            </div>
           <div>
             <label class="text-gray-300 text-sm">Bio</label>
