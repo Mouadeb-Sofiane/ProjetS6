@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { supabase } from "../supabase";
-import BackGround from "@/components/BackGround.vue";
+import HomeBack from "@/components/HomeBack.vue";
 
 const user = ref(null);
 const error = ref("");
@@ -84,12 +84,12 @@ onMounted(fetchUserInfo);
 
 
 <template>
-  <BackGround class="absolute inset-0 z-[-1]" />
+  <HomeBack class="absolute inset-0 z-[-1]" />
   <div class="min-h-screen flex items-center justify-center p-6">
     <div class="backdrop-blur-lg w-full max-w-4xl rounded-lg shadow-md p-6 mt-20">
       <!-- Header -->
       <div class="border-b pb-4 mb-6">
-        <h1 class="text-xl font-bold text-gray-100">Mon Profil</h1>
+        <h1 class="text-xl font-bold text-gray-100 font-maPolice">Mon Profil</h1>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -106,7 +106,7 @@ onMounted(fetchUserInfo);
             <div>
               <h2 class="text-lg font-semibold text-gray-200">{{ firstName }} {{ lastName }}</h2>
               <p class="text-sm text-gray-500">{{ email }}</p>
-              <p class="text-sm text-gray-200">Score du dernier quiz : <span class="text-green-400 font-bold">{{ score }}</span></p>
+              <p class="text-sm text-gray-200 ">Score du dernier quiz : <span class="text-green-400 font-bold">{{ score }}</span></p>
             </div>
           </div>
 
@@ -115,7 +115,7 @@ onMounted(fetchUserInfo);
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <!-- First Name -->
               <div>
-                <label class="text-gray-300 text-sm">Prénom</label>
+                <label class="text-gray-300 text-sm font-thin font-maPolice">Prénom</label>
                 <input
                   type="text"
                   v-model="firstName"
@@ -125,7 +125,7 @@ onMounted(fetchUserInfo);
 
               <!-- Last Name -->
               <div>
-                <label class="text-gray-300 text-sm">Nom de famille</label>
+                <label class="text-gray-300 text-sm font-thin font-maPolice">Nom de famille</label>
                 <input
                   type="text"
                   v-model="lastName"
@@ -136,7 +136,7 @@ onMounted(fetchUserInfo);
 
             <!-- Email -->
             <div>
-              <label class="text-gray-300 text-sm">Email</label>
+              <label class="text-gray-300 text-sm font-thin font-maPolice">Email</label>
               <input
                 type="email"
                 v-model="email"
@@ -146,7 +146,7 @@ onMounted(fetchUserInfo);
 
             <!-- Avatar Upload -->
             <div>
-              <label class="text-gray-300 text-sm">Photo de profil</label>
+              <label class="text-gray-300 text-sm font-thin font-maPolice">Photo de profil</label>
               <input
                 type="file"
                 @change="handleAvatarChange"
@@ -160,11 +160,11 @@ onMounted(fetchUserInfo);
         <div class="flex flex-col justify-between">
           <!-- Bio -->
            <div>
-            <h2 class="text-2xl font-semibold text-gray-300 mb-4">Biographie</h2>
+            <h2 class="text-2xl font-thin text-gray-300 mb-4 font-maPolice">Biographie</h2>
             <p class="text-white mb-4">{{ bio_users }}</p>
            </div>
           <div>
-            <label class="text-gray-300 text-sm">Bio</label>
+            <label class="text-gray-300 text-sm font-thin font-maPolice">Bio</label>
             <textarea
               v-model="bio_users"
               rows="4"
@@ -176,14 +176,14 @@ onMounted(fetchUserInfo);
           <div class="flex flex-row gap-4 mt-4">
             <button
               @click="updateUserInfo"
-              class="flex-1 bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800"
+              class="flex-1 bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800 font-thin font-maPolice"
             >
               Enregistrer
             </button>
 
             <button
               @click="cancelUpdate"
-              class="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+              class="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 font-thin font-maPolice"
             >
               Annuler
             </button>
@@ -192,14 +192,14 @@ onMounted(fetchUserInfo);
           <!-- Bouton Déconnexion tout en bas -->
           <button
             @click="signOut"
-            class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800 mt-6"
+            class="w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800 mt-6 font-thin font-maPolice"
           >
             Se déconnecter
           </button>
         </div>
       </div>
 
-      <p v-if="error" class="text-red-500 text-sm mt-4">{{ error }}</p>
+      <p v-if="error" class="text-red-500 text-sm mt-4 font-thin font-maPolice">{{ error }}</p>
     </div>
   </div>
 </template>

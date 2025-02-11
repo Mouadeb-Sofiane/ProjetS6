@@ -11,7 +11,7 @@ defineProps <Database["public"]["Tables"]["Card"]["Row"]>()
         :style="{ 'background-image': `url(${image_projet})` }"
         >
         <div class="bg-black bg-opacity-50 min-h-150 px-10 flex flex-wrap flex-col pt-32 hover:bg-opacity-80 transform duration-300">
-            <h1 class="text-white text-3xl mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300 font-maPolice">
+            <h1 class="text-white text-2xl mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300 font-maPolice">
             {{ nom_projet }}
             </h1>
             <div class="relative w-32 h-2 mb-5 transform translate-y-20 group-hover:translate-y-0 duration-300">

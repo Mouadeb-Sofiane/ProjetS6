@@ -1,5 +1,5 @@
 <template>
-  <div class="game-container">
+  <div class="game-container mt-20">
     <!-- Écran de bienvenue -->
     <div v-if="showWelcome" class="welcome-screen">
       <h1 class="font-maPolice text-4xl mb-16">Bienvenue dans le Jeu des Risques Informatiques</h1>
@@ -23,9 +23,9 @@
         <button @click="exitPC" class="close-btn">X</button>
       </div>
       <div class="pc-options">
-        <button @click="openSection('files')">📁 Fichiers</button>
-        <button @click="openSection('mail')">📧 Mails</button>
-        <button @click="openSection('quiz')">🧠 Quiz Sécurité</button>
+        <button @click="openSection('files')" class="text-white">📁 Fichiers</button>
+        <button @click="openSection('mail')" class="text-white">📧 Mails</button>
+        <button @click="openSection('quiz')" class="text-white">🧠 Quiz Sécurité</button>
       </div>
       
       <div v-if="activeSection === 'files'" class="pc-content">
@@ -175,4 +175,55 @@ button {
     height: auto;
   }
 }
+@media (max-width: 768px) {
+  .game-container {
+    position: relative; /* Permet à .pc-interface de s’y référer */
+    min-height: 100vh;
+    padding-top: 40px; /* Espacement supérieur pour éviter que le jeu soit collé en haut */
+  }
+
+  .pc {
+    width: 80%; /* Ajuste la taille de l'image de l'ordinateur */
+  }
+
+  .pc-interface {
+  width: 100%;
+  height: 100%;
+  background: #333;
+  border: 2px solid #666;
+  border-radius: 8px;
+  position: absolute; /* Se place par rapport à .game-container */
+  top: 0;
+  left: 0;
+  z-index: 10; /* Toujours au-dessus du contenu mais sous le header/footer */
+  overflow-y: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+  .pc-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pc-options button {
+    width: 90%;
+    margin: 5px 0;
+  }
+  
+  .pc-content {
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .welcome-screen {
+    padding: 20px;
+    max-width: 90%;
+  }
+}
+
 </style>
