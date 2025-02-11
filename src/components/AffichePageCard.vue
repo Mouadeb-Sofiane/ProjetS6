@@ -35,7 +35,7 @@ const modules = [Autoplay, Pagination, Navigation];
     <div class="mb-16">
       <h2 class="text-xl sm:text-2xl underline font-maPolice mx-4 sm:mx-12">{{ title1 }}</h2>
       <div class="flex flex-col md:flex-row gap-8 sm:gap-11 mt-6">
-        <p class="text-justify w-full md:w-3/5 mx-4 sm:mx-12 text-base font-poppins">
+        <p class="text-justify w-full md:w-3/5 text-base font-poppins">
           {{ description1 }}
         </p>
         <div class="flex flex-col w-full md:w-2/5">
@@ -73,7 +73,7 @@ const modules = [Autoplay, Pagination, Navigation];
           class="w-full max-w-4xl"
         >
           <swiper-slide v-for="(img, index) in [img7, img8, img9, img10, img11, img12]" :key="index">
-            <img class="w-auto max-h-48 mx-auto rounded-lg shadow-md" v-if="img" :src="img" alt="Image projet" />
+            <img class="w-full max-h-[500px] mx-auto rounded-lg shadow-md" v-if="img" :src="img" alt="Image projet" />
           </swiper-slide>
         </swiper>
       </div>
